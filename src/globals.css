@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-space: 'Space Grotesk', sans-serif;
+}
+
+body {
+  font-family: var(--font-inter);
+}
+
+.font-title {
+  font-family: var(--font-space);
+}
+
+@keyframes shiny {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shiny {
+  background: linear-gradient(
+    120deg, 
+    rgba(59, 130, 246, 0) 30%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    rgba(59, 130, 246, 0) 70%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shiny 3s infinite linear;
+}
+
+@keyframes ripple-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  }
+}
+
+.animate-ripple {
+  animation: ripple-pulse 1s infinite;
+}
