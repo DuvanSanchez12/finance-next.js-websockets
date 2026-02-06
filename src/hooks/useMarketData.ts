@@ -99,7 +99,7 @@ socket.on('initial-prices', (dbData: any[]) => {
       socket.disconnect();
     };
   }, [openPrices]); // Se vuelve a ejecutar cuando openPrices carga desde el servidor
-console.log(assets);
+// console.log(assets);
   return { assets };
   
 };

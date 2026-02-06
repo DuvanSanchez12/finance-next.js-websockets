@@ -40,7 +40,7 @@ export const AssetCard = ({ asset }: { asset: any }) => {
   }, [asset.price]);
 
   return (
-    <div className="p-5 rounded-xl bg-[#1e2329bb] border border-transparent cursor-pointer hover:border-yellow-500 transition-all group">
+    <div className="p-5 rounded-xl bg-[#1e2329bb] border border-transparent cursor-pointer  hover:border-yellow-500 transition-all group">
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden bg-gray-800">
@@ -68,7 +68,7 @@ export const AssetCard = ({ asset }: { asset: any }) => {
       <div className="flex flex-col">
         {/* El precio parpadea con transition-colors para suavidad */}
         <div className={`text-xl font-bold mb-1 transition-colors duration-300 ${priceColor}`}>
-          ${asset.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          ${asset.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 7 })}
         </div>
         
         {/* El porcentaje mantiene el color de la tendencia diaria */}
