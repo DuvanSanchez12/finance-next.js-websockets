@@ -17,7 +17,7 @@ interface Asset {
 }
 
 // CAMBIO IMPORTANTE: Usa la URL de Railway en producción
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || "web-production-62e0.up.railway.app";
+const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export const useMarketData = (initialSymbols: string[]) => {
   // Inicializamos con los símbolos para que las tarjetas aparezcan de inmediato
