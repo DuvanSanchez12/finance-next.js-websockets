@@ -1,13 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { createChart, ColorType, CandlestickSeries, ISeriesApi, CrosshairMode } from "lightweight-charts";
+import { 
+  createChart, 
+  ColorType, 
+  CandlestickSeries, 
+  ISeriesApi, 
+  CrosshairMode,
+  Time // Importamos el tipo Time
+} from "lightweight-charts";
 import { useEffect, useRef } from "react";
+
+// Definimos una interfaz para nuestras velas para evitar el uso de 'any'
+interface CandleData {
+  time: Time;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
 
 export const TradingChart = ({ data, currentPrice }: { data: any[], currentPrice: number }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
-  const lastCandleRef = useRef<any>(null);
+  const lastCandleRef = useRef<CandleData | null>(null);
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -30,7 +46,7 @@ export const TradingChart = ({ data, currentPrice }: { data: any[], currentPrice
       },
       rightPriceScale: {
         borderColor: "rgba(197, 203, 206, 0.1)",
-        autoScale: true, // Esto es clave para que las velas no se vean planas
+        autoScale: true,
       },
       timeScale: {
         borderColor: "rgba(197, 203, 206, 0.1)",
@@ -47,8 +63,13 @@ export const TradingChart = ({ data, currentPrice }: { data: any[], currentPrice
     });
 
     if (data.length > 0) {
-      series.setData(data);
-      lastCandleRef.current = { ...data[data.length - 1] };
+      // Mapeamos los datos asegurando que el tiempo sea tratado como tipo Time
+      const formattedData = data.map(item => ({
+        ...item,
+        time: item.time as Time
+      }));
+      series.setData(formattedData);
+      lastCandleRef.current = formattedData[formattedData.length - 1];
       chart.timeScale().fitContent();
     }
 
@@ -70,11 +91,11 @@ export const TradingChart = ({ data, currentPrice }: { data: any[], currentPrice
   useEffect(() => {
     if (seriesRef.current && currentPrice > 0) {
       const now = Math.floor(Date.now() / 1000);
-      const currentMinute = Math.floor(now / 60) * 60;
+      const currentMinute = (Math.floor(now / 60) * 60) as Time; // Casting a Time
 
-      if (!lastCandleRef.current || currentMinute > lastCandleRef.current.time) {
-        // Nueva vela: El 'open' es el 'close' de la anterior
-        const newCandle = {
+      if (!lastCandleRef.current || (currentMinute as number) > (lastCandleRef.current.time as number)) {
+        // Nueva vela
+        const newCandle: CandleData = {
           time: currentMinute,
           open: lastCandleRef.current ? lastCandleRef.current.close : currentPrice,
           high: currentPrice,
@@ -84,8 +105,8 @@ export const TradingChart = ({ data, currentPrice }: { data: any[], currentPrice
         lastCandleRef.current = newCandle;
         seriesRef.current.update(newCandle);
       } else {
-        // Actualizar vela existente: Calculamos el High y Low real
-        const updatedCandle = {
+        // Actualizar vela existente
+        const updatedCandle: CandleData = {
           ...lastCandleRef.current,
           high: Math.max(lastCandleRef.current.high, currentPrice),
           low: Math.min(lastCandleRef.current.low, currentPrice),
