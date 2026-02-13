@@ -11,6 +11,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  if (pathname.startsWith('/market') && !token) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
   // 2. Si ya tiene token e intenta ir a login/register -> Al dashboard
   if ((pathname === '/login' || pathname === '/register') && token) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
@@ -20,5 +24,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/register'],
+  matcher: ['/dashboard/:path*', '/market/:path*', '/login', '/register'],
 };

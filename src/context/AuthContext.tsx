@@ -4,6 +4,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext<any>(null);
 
@@ -18,9 +19,7 @@ useEffect(() => {
   if (token) {
     try {
       // 1. Decodificamos la parte media (Payload) del JWT
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const payload = JSON.parse(window.atob(base64));
+      const payload: any =jwtDecode(token)
 
       // 2. Mapeamos los datos según lo que envía tu Backend (auth.controller.js)
       // Nota: Asegúrate de que tu JWT incluya el username en el payload

@@ -4,6 +4,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import Navbar from "@/components/navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import Footer from "@/components/footer";
+import { TokenGuard } from "@/tokenGiard";
 // Inter es limpia y muy legible para el cuerpo
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-[#0f172a]`}
       >
         <AuthProvider>
+          <TokenGuard />
           <Navbar />
           {children}
           <Footer />

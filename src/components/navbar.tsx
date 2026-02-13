@@ -39,7 +39,7 @@ export default function Navbar() {
       {/* Enlaces Centrales */}
       <div className="hidden lg:flex items-center justify-center text-sm font-medium">
         <Link
-          href="/dashboard"
+          href="/market"
           className="text-slate-400 hover:text-white transition-colors"
         >
           Mercado
