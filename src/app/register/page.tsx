@@ -20,8 +20,9 @@ export default function RegisterPage() {
     try {
       const data = await registerUser(formData);
       localStorage.setItem("token", data.token);
-      // En lugar de alert, podrías usar un toast. Por ahora, redirigimos directo.
-      router.push("/login?registered=true");
+      
+      router.refresh();
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Error al crear la cuenta");
     } finally {

@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { loginUser } from "@/services/Auth.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link"; // Para navegación interna
+import Link from "next/link";
 import { Zap } from "lucide-react";
 
 export default function LoginPage() {
@@ -22,16 +22,16 @@ export default function LoginPage() {
 
     try {
       const data = await loginUser(formData);
-      
-      setUser({
+
+      localStorage.setItem("token", data.token);
+
+      await setUser({
         name: data.result.username,
         email: data.result.email,
         image: `https://ui-avatars.com/api/?name=${data.result.username}&background=3b82f6&color=fff`,
       });
-      localStorage.setItem("token", data.token);
-
-      // Redirigir directamente sin alert para una UX más fluida
       router.push("/dashboard");
+      
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión");
     } finally {
